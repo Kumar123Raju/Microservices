@@ -1,0 +1,38 @@
+Step-by-Step Guide: Installing and Running Kafka with KRaft Mode on Windows 10
+Step 1: Download Kafka
+	1. Go to the Apache Kafka downloads page.
+	2. Download the latest binary version.
+	3. Extract the downloaded Kafka archive to a desired directory.
+Step 2: Set Environment Variables (Optional)
+	1. Add the bin directory of Kafka to the system's PATH variable for easier command access.
+Step 3: Generate a UUID for Kafka Cluster
+	1. Open a Command Prompt.
+	2. Run the following command to generate a unique cluster ID: 
+kafka-storage.bat random-uuid
+
+Note down the UUID generated.
+Step 4: Set the UUID as a Variable
+	1. Use the following command to set the UUID to an environment variable: 
+set KAFKA_CLUSTER_ID={use the uuid generated above}
+Step 5: Format Kafka Log Directories
+	1. Run the following command to format the log directories using the generated cluster ID: 
+kafka-storage.bat format -t %KAFKA_CLUSTER_ID% -c ../../config/kraft/server.properties
+Step 6: Start the Kafka Server
+	1. Start the Kafka server by running: 
+kafka-server-start.bat ../../config/kraft/server.properties
+Step 7: Create a Kafka Topic
+	1. Open a new Command Prompt.
+	2. Create a new topic named first-kraft-topic by running: 
+kafka-topics.bat --create --topic first-kraft-topic --bootstrap-server localhost:9092
+Step 8: Produce Messages to the Topic
+	1. Use the following command to produce messages to the topic: 
+kafka-console-producer.bat --topic first-kraft-topic --bootstrap-server localhost:9092
+	2. Type messages and press Enter. Each message will be sent to the topic.
+Step 9: Consume Messages from the Topic
+	1. Use the following command to consume messages from the topic: 
+kafka-console-consumer.bat --topic first-kraft-topic --from-beginning --bootstrap-server localhost:9092
+	2. You will see all messages from the topic displayed.
+Additional Notes
+	• Ensure that no other services are running on port 9092 to avoid conflicts.
+	• Use separate Command Prompt windows for the producer, consumer, and server to keep them running simultaneously.
+By following these steps, you will have Kafka running in KRaft mode on Windows 10 successfully.
